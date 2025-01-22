@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
+
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background-image: url("./img/background.jpg");
+            background-size: cover;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        nav {
+            width: 100%;
+            height: 10vh;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: rgb(58, 211, 3);
+            text-shadow: 0 0 10px rgb(58, 211, 3);
+        }
+
+        .hamburg, .cancel {
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            color: white;
+            display: none;
+            font-size: clamp(2.5rem, 0.5rem + 5vw, 3rem);
+        }
+
+        .nav-container .links {
+            display: flex;
+        }
+
+        .nav-container .links a {
+            font-size: 1.2rem;
+            color: white;
+            margin: 0 20px;
+            text-decoration: none;
+            font-weight: 550;
+            transition: 0.3s linear;
+        }
+
+        .nav-container .links a:hover {
+            color: rgb(58, 211, 3);
+            border-bottom: 2px solid rgb(58, 211, 3);
+        }
+
+        .nav-container .links .active {
+            color: rgb(58, 211, 3);
+            border-bottom: 2px solid rgb(58, 211, 3);
+        }
+
+        .dropdown {
+            z-index: 1000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(-500px);
+            width: 100%;
+            height: auto;
+            backdrop-filter: blur(4px) brightness(40%);
+            box-shadow: 0 0 20px black;
+            transition: 0.2s linear;
+        }
+
+        .dropdown .links a {
+            display: flex;
+            color: white;
+            text-decoration: none;
+            padding: 15px 0;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s linear;
+        }
+
+        .dropdown .links a:hover {
+            background-color: rgb(58, 211, 3);
+        }
+
+        /* Skills Section Styles */
+        .skills-container {
+            width: 100%;
+            min-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skills-content {
+            width: 80%;
+            max-width: 1200px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            color: white;
+        }
+
+        .skills-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .skills-header h1 {
+            font-size: 2.5rem;
+            color: rgb(58, 211, 3);
+            text-shadow: 0 0 10px rgb(58, 211, 3);
+            margin-bottom: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .role-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .role-description {
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .skill-category {
+            background: rgba(58, 211, 3, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: 0.3s ease;
+        }
+
+        @media (max-width: 884px) {
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            nav .logo {
+                position: absolute;
+                top: 16px;
+                left: 15px;
+                font-size: 1.5rem;
+            }
+
+            .nav-container .links {
+                display: none;
+            }
+
+            .hamburg, .cancel {
+                display: block;
+            }
+        }
+
+        @media (max-width: 440px) {
+            .skills-container {
+                padding: 1rem;
+            }
+
+            .skills-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .role-description {
+                font-size: 14px;
+            }
+        }
+    </style>
+    <title>Rangga Roris - Experience</title>
+    <link rel="icon" type="image/png" href="img/icon.png">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo" data-aos="zoom-in" data-aos-duration="1500">
+                Rangga <span>Roris</span>
+            </div>
+            <div class="links">
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="100"><a href="index.html">Home</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200"><a href="about.html">About</a></div>
+                <div class="link active" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="300"><a href="experience.html">Work Experience</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="400"><a href="skill.html">Skills</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="500"><a href="certificate.html">Certificate</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="600"><a href="project.html">Project</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="700"><a href="contact.html">Contact</a></div>
+            </div>
+        </div>
+        <i class="fa-solid fa-bars hamburg" onclick="hamburg()"></i>
+        <div class="dropdown">
+            <div class="links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="experience.html">Work Experience</a>
+                <a href="skill.html">Skills</a>
+                <a href="certificate.html">Certificate</a>
+                <a href="project.html">Project</a>
+                <a href="contact.html">Contact</a>
+                <i class="fa-solid fa-xmark cancel" onclick="cancel()"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="skills-container">
+        <div class="skills-content">
+            <div class="skills-header" data-aos="fade-down" data-aos-duration="1500">
+                <h1>Work Experience</h1>
+            </div>
+            <div class="skills-grid" style="display: flex; align-items: flex-start; gap: 20px;">
+                <!-- Logo -->
+                <img src="img/eidlogo.png" alt="Logo ERICSSON" style="height: 100px;">
+                
+                <!-- Role Details -->
+                <div class="role-details" style="flex: 1;">
+                    <span class="company-name" style="font-size: 24px; font-weight: bold; color: rgb(0, 255, 55);">ERICSSON</span>
+                    <span class="role-description" style="display: block; font-weight: bold; margin-top: 5px; font-size: 18px;">
+                        Integration Engineer | Remote Troubleshooter | Back-Office RAN
+                    </span>
+                    <span class="role-description" style="display: block; font-size: 14px; font-weight: lighter; margin-bottom: 10px;">
+                        6 yrs 9 mos
+                    </span>
+                    <div style="font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5;">
+                        <p style="margin: 0; font-weight: bold; color: #007bff;">• TAC Team (Indonesia)<span style="color: gray;"> - Remote</span></p>
+                        <p style="margin: 0; color: gray; font-size: 14px;">Feb 2024 - Dec 2024 • 11 mos</p>
+                        <p style="margin: 0; font-weight: bold; color: #d9ff00; font-size: 16px;">XL AXIATA - IOH</p>
+                        <!-- Daftar Poin -->
+                        <ul style="margin: 5px 0 0 20px; padding: 0; list-style-type: none; color: rgb(255, 255, 255); font-size: 14px;">
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Prepared and executed scripting for 2G, 3G, 4G, and 5G network integration, including New Site Integration, Site Expansion, and Massive MIMO deployment.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Managed Capacity Upgrades and Downgrades, ensuring network efficiency and optimal performance, Baseline Parameter Optim.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Responsible for Bridge Transport TCU | SIU | BaseBand Series to ensure seamless integration and communication across network elements.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Supported the FNI POC Special Project, focusing on the integration of new Software and Hardware solutions.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Acted as an Executor for PS Consolidation for IOH, ensuring successful consolidation and system optimization.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Led Software Upgrades to enhance system functionality and maintain upto-date technology standards.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - E2E Troubleshooting and reporting to customer.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Experience with DU BB 52xx, 6630, 6631, RAN Processor , Radio 22xx, 44xx, 66xx, AIR.
+                            </li>
+                        </ul> 
+                        <p style="margin: 0; font-weight: bold; color: #007bff;">• ECT Team (Thailand)<span style="color: gray;"> - Remote</span></p>
+                        <p style="margin: 0; color: gray; font-size: 14px;">Jul 2023 - Feb 2024 • 8 mos</p>  
+                        <p style="margin: 0; font-weight: bold; color: #d9ff00; font-size: 16px;">TRUE - DTAC</p>   
+                        <!-- Daftar Poin -->
+                        <ul style="margin: 5px 0 0 20px; padding: 0; list-style-type: none; color: rgb(255, 255, 255); font-size: 14px;">
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Monitored and Troubleshoot 2G, 3G, 4G, and 5G networks to maintain optimal performance and resolve network issues efficiently and report to customer.
+                            </li> 
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Acted as an Executor for Rehoming and Add L21 Shutdown U21, ensuring seamless network resource management and capacity optimization.
+                            </li> 
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Provided comprehensive NOC Support to maintain service availability and minimize downtime across the network.
+                            </li> 
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Executed Change Requests (CR) Parameter Tunning BSC RNC Node Level >1000 sites, ensuring proper implementation and adherence to network standards for system modifications.
+                            </li>
+                        </ul>           
+                        <p style="margin: 0; font-weight: bold; color: #007bff;">• Panda Team (Indonesia)<span style="color: gray;"> - Hybrid</span></p>
+                        <p style="margin: 0; color: gray; font-size: 14px;">Jun 2021 – Jul 2023 • 2 yrs 2 mos</p>  
+                        <p style="margin: 0; font-weight: bold; color: #d9ff00; font-size: 16px;">XL AXIATA – IOH – TELKOMSEL</p>
+                        <!-- Daftar Poin -->
+                        <ul style="margin: 5px 0 0 20px; padding: 0; list-style-type: none; color: rgb(255, 255, 255); font-size: 14px;">
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Monitored and troubleshoot KPI Hygiene Alarms to ensure optimal network performance (XL Axiata, IOH).                                
+                            </li>  
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Acted as a Specialist for Trials/POC, including Trial AIR MIMO and the implementation of new hardware/software solutions (XL Axiata, IOH).
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Conducted Knowledge Sharing Sessions to improve the technical expertise of ASP teams (XL Axiata, IOH).
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Managed the Integration of DU, SIU, TCU, and Baseband Series for seamless deployment (XL Axiata, IOH).
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Developed and executed Method of Procedures (MOP) for efficient project implementation (XL Axiata).
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Supported trials for Elastic RAN to enhance network flexibility and scalability (IOH).
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Acted as a MOCN Executor, facilitating efficient resource sharing in multioperator networks (IOH).
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Executed PS Consolidation to ensure smooth migration and system optimization (IOH).
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Executed GFR (Global Frequency Reuse) to optimize frequency allocation and utilization (Telkomsel).
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Implemented Power Saving Initiatives to increase energy efficiency (Telkomsel).
+                            </li>
+                        </ul>      
+                        <p style="margin: 0; font-weight: bold; color: #007bff;">• Taskforce Team (Indonesia)<span style="color: gray;"> - Onsite</span></p>
+                        <p style="margin: 0; color: gray; font-size: 14px;">Apr 2018 – Jun 2021 • 3 yrs 3 mos</p>  
+                        <p style="margin: 0; font-weight: bold; color: #d9ff00; font-size: 16px;">XL AXIATA</p>
+                        <!-- Daftar Poin -->
+                        <ul style="margin: 5px 0 0 20px; padding: 0; list-style-type: none; color: rgb(255, 255, 255); font-size: 14px;">
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Conducted Alarm Analysis and Resolution, generated License Key Files for software configuration, troubleshot and resolved Network Element (NE) Down issues, replaced faulty modules, and resolved Transmission Issues to ensure network stability, seamless connectivity, and optimal data flow.                               
+                            </li> 
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Performed Re-Integration activities for sites affected by theft incidents.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Troubleshoot and resolved issues related to ASM, SDI, Tx Low Rank, Xfeeder, CBRA, RSSI, VSWR, and configured RET (Remote Electrical Tilt) to maintain optimal network performance and improve signal quality.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Executed Software Upgrades to enhance system capabilities.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Conducted QAC (Quality Assurance Check) Troubleshooting to meet quality standards.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Provided specialist-level support for ASP Troubleshooting to improve resolution efficiency.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Supported Trial Migration CSR Ericsson to implement new network features.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Addressed and resolved VIP Sales Complaints to ensure customer satisfaction.
+                            </li>
+                        </ul> 
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; align-items: flex-start;">
+                <img src="img/TAlogo.png" alt="Logo TUNGGAL AURORA" style="height: 100px; margin-top: 15px;">
+                <div class="role-details" style="flex: 1; margin-left: 20px; margin-top: 20px;">
+                    <span class="company-name" style="font-size: 24px; font-weight: bold; color: rgb(0, 255, 55);">
+                        PT. TUNGGAL AURORA
+                    </span>
+                    <span class="role-description" style="display: block; font-weight: bold; margin-top: 5px; font-size: 18px;">
+                        Project Coordinator | Exp Site Engineer
+                    </span>
+                    <span class="role-description" style="display: block; font-size: 14px; font-weight: lighter; margin-bottom: 10px;">
+                        8 yrs 4 mos
+                    </span>
+                    <div style="font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5;">
+                        <p style="margin: 0; font-weight: bold; color: #007bff;">• Project Coordinator (Indonesia)<span style="color: gray;"> - Office</span></p>
+                        <p style="margin: 0; color: gray; font-size: 14px;">Nov 2015 - Apr 2018 • 2 yrs 5 mos</p>
+                        <p style="margin: 0; font-weight: bold; color: #d9ff00; font-size: 16px;">XL BUSOL - ERICSSON - NEC - HUAWEI</p>
+                        <!-- Daftar Poin -->
+                        <ul style="margin: 5px 0 0 20px; padding: 0; list-style-type: none; color: rgb(255, 255, 255); font-size: 14px;">
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Coordinated E2E monitoring progress, ensuring smooth execution of Survey, MOS, installation, integration, and preparation of acceptance documentation and BAST.                                
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Managed projects for Ericsson Jabo, Ericsson CJ, ALITA, XL Busol, and Huawei, ensuring timely and efficient completion.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Oversaw the installation and integration processes, coordinating with crossfunctional teams to ensure project milestones were met on schedule.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Developed and managed daily team plans, ensuring alignment with project goals and optimizing team performance for each task.
+                            </li>
+                            <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                                - Provided detailed status updates to stakeholders, ensuring clear communication and tracking of project progress.
+                            </li>
+                        </ul>
+                        <div style="font-family: 'Poppins', sans-serif; font-size: 18px; line-height: 1.5;">
+                            <p style="margin: 0; font-weight: bold; color: #007bff;">• Exp Site Engineer Multi Vendor (Indonesia)<span style="color: gray;"> - Onsite</span></p>
+                            <p style="margin: 0; color: gray; font-size: 14px;">Dec 2009 - Nov 2015 • 5 yrs 11 mos</p>
+                            <p style="margin: 0; font-weight: bold; color: #d9ff00; font-size: 16px;">ERICSSON (XL INDOSAT) -  NEC (XL) - HUAWEI (TELKOMSEL) - ZTE (ESIA)</p>
+                    <!-- Daftar Poin -->
+                    <ul style="margin: 5px 0 0 20px; padding: 0; list-style-type: none; color: rgb(255, 255, 255); font-size: 14px;">
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em; color: gray;">
+                            Network Installation & Commissioning:                 
+                        </li>                        
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Led BTS installation as Engineer Team Leader, including RBS 2216, 2206, 6201, 6102, 6601, DU , Baseband Serries and Mini Link Ericsson installations, NEC Ipasolink , HUAWEI BTS and Dismantled ESIA Jabo.                
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Commissioned GSM 900, GSM 1800, and 3G 2100 WCDMA ensuring network readiness.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Conducted software upgrades and troubleshooting for 2G, 3G systems to optimize network performance.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em; color: gray;">
+                            Network Optimization & Expansion:                 
+                        </li> 
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Led antenna swaps from single-band to triple-band and penta-band in West Java Area.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Added DUW 30 and DUW 41 and RUS 01 modules to enhance capacity and coverage in Jabotabek Area.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Participated in the Hybrid Solution project and regular rollout projects, contributing to a broader network coverage.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em; color: gray;">
+                            Project Execution & Documentation:                
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Managed installation of Transmissions IPASO NEC and RBS Ericsson , Huawei, ZTE , Nokia modules, ensuring network readiness for GSM and 3G services.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Prepared necessary documentation for C-Module till ATP RBS, ensuring timely project completion and compliance.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em; color: gray;">
+                            Re-Integration & Troubleshooting:              
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Led re-integration efforts for stolen 2G/3G equipment, including antenna swaps and system reconfiguration, minimizing downtime and ensuring network stability.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Troubleshooted RBS 2G & 3G Ericsson equipment, providing ongoing support and resolving issues promptly.
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em; color: gray;">
+                            Special Projects:              
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Worked on the LTE Turnkey project, including the installation and commissioning of LTE modules for XL Axiata.                            
+                        </li>
+                        <li style="margin-bottom: 5px; text-indent: -1.2em; padding-left: 1.2em;">
+                            - Conducted LTE mixed-mode commissioning for GSM 900 services, improving network performance and data capacity
+                        </li>
+                    </ul>
+                        </div>
+                </div>
+            </div>
+                 
+                </div>
+            </div>
+            
+            
+            
+        </div>
+    </div>
+    
+    
+    
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+        function hamburg() {
+            document.querySelector('.dropdown').style.transform = "translateY(0)";
+        }
+        function cancel() {
+            document.querySelector('.dropdown').style.transform = "translateY(-500px)";
+        }
+    </script>
+</body>
+</html>

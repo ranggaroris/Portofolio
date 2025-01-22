@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
+
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background-image: url("./img/background.jpg");
+            background-size: cover;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calculator {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(58, 211, 3, 0.5);
+            text-align: center;
+        }
+
+        .calculator-title {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        #display {
+            background: black;
+            color: white;
+            font-size: 2rem;
+            padding: 20px;
+            text-align: right;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            min-height: 50px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            font-size: 1.5rem;
+            padding: 20px;
+            background: rgba(58, 211, 3, 0.2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: rgb(58, 211, 3);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button.clear {
+            background: rgba(255, 0, 0, 0.3);
+        }
+
+        button.operator {
+            background: rgba(0, 0, 255, 0.3);
+        }
+
+        button.special {
+            background: rgba(255, 165, 0, 0.3);
+        }
+
+        button.equal {
+            background: rgb(58, 211, 3);
+            grid-column: span 2;
+        }
+
+        @media (max-width: 600px) {
+            .calculator {
+                width: 90%;
+            }
+
+            button {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+        }
+    </style>
+    <title>Rangga Roris - Calculator</title>
+    <link rel="icon" type="image/png" href="img/icon.png">
+</head>
+<body>
+    <div class="calculator">
+        <div class="calculator-title">Calculator</div>
+        <div id="display">0</div>
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="operator" onclick="appendOperator('/')">÷</button>
+            <button class="operator" onclick="appendOperator('*')">×</button>
+            <button class="operator" onclick="appendOperator('-')">−</button>
+            <button class="number" onclick="appendNumber('7')">7</button>
+            <button class="number" onclick="appendNumber('8')">8</button>
+            <button class="number" onclick="appendNumber('9')">9</button>
+            <button class="operator" onclick="appendOperator('+')">+</button>
+            <button class="number" onclick="appendNumber('4')">4</button>
+            <button class="number" onclick="appendNumber('5')">5</button>
+            <button class="number" onclick="appendNumber('6')">6</button>
+            <button class="special" onclick="calculateSqrt()">√</button>
+            <button class="number" onclick="appendNumber('1')">1</button>
+            <button class="number" onclick="appendNumber('2')">2</button>
+            <button class="number" onclick="appendNumber('3')">3</button>
+            <button class="special" onclick="calculateSquare()">x²</button>
+            <button class="number" onclick="appendNumber('0')">0</button>
+            <button class="number" onclick="appendNumber('.')">.</button>
+            <button class="equal" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+
+        function appendNumber(number) {
+            if (display.innerText === '0' || display.innerText === 'Error') {
+                display.innerText = number;
+            } else {
+                display.innerText += number;
+            }
+        }
+
+        function appendOperator(operator) {
+            const lastChar = display.innerText.slice(-1);
+            if ('+-*/'.includes(lastChar)) {
+                display.innerText = display.innerText.slice(0, -1) + operator;
+            } else {
+                display.innerText += operator;
+            }
+        }
+
+        function clearDisplay() {
+            display.innerText = '0';
+        }
+
+        function calculateResult() {
+            try {
+                display.innerText = eval(display.innerText);
+            } catch {
+                display.innerText = 'Error';
+            }
+        }
+
+        function calculateSqrt() {
+            try {
+                display.innerText = Math.sqrt(eval(display.innerText));
+            } catch {
+                display.innerText = 'Error';
+            }
+        }
+
+        function calculateSquare() {
+            try {
+                display.innerText = Math.pow(eval(display.innerText), 2);
+            } catch {
+                display.innerText = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>

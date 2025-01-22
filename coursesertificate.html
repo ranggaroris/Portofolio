@@ -1,0 +1,930 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
+
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background-image: url("./img/background.jpg");
+            background-size: cover;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        nav {
+            width: 100%;
+            height: 10vh;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: rgb(58, 211, 3);
+            text-shadow: 0 0 10px rgb(58, 211, 3);
+        }
+
+        .hamburg, .cancel {
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            color: white;
+            display: none;
+            font-size: clamp(2.5rem, 0.5rem + 5vw, 3rem);
+        }
+
+        .nav-container .links {
+            display: flex;
+        }
+
+        .nav-container .links a {
+            font-size: 1.2rem;
+            color: white;
+            margin: 0 20px;
+            text-decoration: none;
+            font-weight: 550;
+            transition: 0.3s linear;
+        }
+
+        .nav-container .links a:hover {
+            color: rgb(58, 211, 3);
+            border-bottom: 2px solid rgb(58, 211, 3);
+        }
+
+        .nav-container .links .active {
+            color: rgb(58, 211, 3);
+            border-bottom: 2px solid rgb(58, 211, 3);
+        }
+
+        .dropdown {
+            z-index: 1000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            transform: translateY(-500px);
+            width: 100%;
+            height: auto;
+            backdrop-filter: blur(4px) brightness(40%);
+            box-shadow: 0 0 20px black;
+            transition: 0.2s linear;
+        }
+
+        .dropdown .links a {
+            display: flex;
+            color: white;
+            text-decoration: none;
+            padding: 15px 0;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s linear;
+        }
+
+        .dropdown .links a:hover {
+            background-color: rgb(58, 211, 3);
+        }
+
+        /* Skills Section Styles */
+        .skills-container {
+            width: 100%;
+            min-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skills-content {
+            width: 80%;
+            max-width: 1200px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            color: white;
+            /* box-shadow: 0 0 30px rgba(58, 211, 3, 0.3); */
+        }
+
+        .skills-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .skills-header h1 {
+            font-size: 2.5rem;
+            color: rgb(58, 211, 3);
+            text-shadow: 0 0 10px rgb(58, 211, 3);
+            margin-bottom: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: rgba(58, 211, 3, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px rgba(58, 211, 3, 0.5);
+        }
+
+        .skill-category h2 {
+            color: rgb(58, 211, 3);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .skill-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-info h3 {
+            font-size: 1rem;
+            color: white;
+        }
+
+        .skill-info span {
+            color: rgb(58, 211, 3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: rgb(58, 211, 3);
+            border-radius: 5px;
+            transition: width 1.5s ease-in-out;
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            color: rgb(58, 211, 3);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 884px) {
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            nav .logo {
+                position: absolute;
+                top: 16px;
+                left: 15px;
+                font-size: 1.5rem;
+                /* z-index: 1001; */
+            }
+
+            .nav-container .links {
+                display: none;
+            }
+
+            .hamburg, .cancel {
+                display: block;
+                /* z-index: 1001; */
+            }
+        }
+
+        @media (max-width: 440px) {
+            .skills-container {
+                padding: 1rem;
+            }
+
+            .skills-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .skill-category {
+                padding: 1.5rem;
+            }
+
+            .skill-category h2 {
+                font-size: 1.3rem;
+            }
+
+            .skill-icon {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <title>Course Certificate</title>
+    <link rel="icon" type="image/png" href="img/tropy.png">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo" data-aos="zoom-in" data-aos-duration="1500">
+                Rangga <span>Roris</span>
+            </div>
+            <div class="links">
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="100"><a
+                        href="index.html">Home</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="200"><a
+                        href="about.html">About</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="300"><a
+                        href="experience.html">Work Experience</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="400"><a
+                        href="skill.html">Skills</a></div>
+                <div class="link active" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="500"><a
+                        href="service.html">Certificate</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="600"><a
+                        href="project.html">Project</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1500" data-aos-delay="700"><a
+                        href="contact.html">Contact</a></div>
+            </div>
+        </div>
+        <i class="fa-solid fa-bars hamburg" onclick="hamburg()"></i>
+        <div class="dropdown">
+            <div class="links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="experience.html">Work Experience</a>
+                <a href="skill.html">Skills</a>
+                <a href="service.html">Certificate</a>
+                <a href="project.html">Project</a>
+                <a href="contact.html">Contact</a>
+                <i class="fa-solid fa-xmark cancel" onclick="cancel()"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="skills-container">
+        <div class="skills-content">
+            <div class="skills-header" style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                <h1 style="margin: 0; text-align: center; flex-grow: 1;">
+                    <span style="color: rgb(255, 255, 255);">Course</span> Certificate
+                </h1>
+                
+            </div>
+        
+            <!-- Sertifikat Grid -->
+            <div class="certificate-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 20px;">
+                <!-- SERTIFIKAT START -->
+                <div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+                    <img src="img/Certificate/COURSE/Introduction to Cybersecurity.jpg" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+                    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+                        <p style="color: #FFD700;"><strong>"Introduction to Cybersecurity"</strong></p> 
+                        <p style="color: rgb(255, 255, 255); font-size: 14px;">CISCO 2025</p>
+                        <a href="https://www.credly.com/badges/df6d7881-9a0b-4ce7-b71b-97430130a0c0" 
+                        target="_blank" 
+                        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+                               text-align: center; 
+                               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+                               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+                               margin-top: 10px !important;
+                               display: block;">
+                        Credential ↗
+                     </a>
+                    </div>
+                </div>
+            <!-- SERTIFIKAT END -->
+            <!-- SERTIFIKAT START -->
+            <div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+                <img src="img/Certificate/COURSE/Network Defense.jpg" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+                <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+                    <p style="color: #FFD700;"><strong>"Network Defense"</strong></p> 
+                    <p style="color: rgb(255, 255, 255); font-size: 14px;">CISCO 2025</p>
+                    <a href="https://www.credly.com/badges/73082af2-68c6-43d3-be0a-6d965cdb061a/public_url" 
+                    target="_blank" 
+                    style="color: #00ff00; font-weight: bold; text-decoration: none; 
+                           text-align: center; 
+                           text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+                           transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+                           margin-top: 10px !important;
+                           display: block;">
+                    Credential ↗
+                 </a>
+                </div>
+            </div>
+        <!-- SERTIFIKAT END -->
+        <!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Learning Linux for LFCA Certification.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"“Learning Linux for LFCA Certification"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">LearnQuest - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/specialization/KO3TC8KD1BDU?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=pdf_header_button&utm_product=s12n" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/English Learning – Adult Level 1.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"English Learning – Adult Level 1"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">EFE Indonesia 2025</p>
+        <a href="https://drive.google.com/file/d/1c8XrojUDtQSq_vCAflCLNNHBW0nGVgXD/view" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/AWS Cloud Technical Essentials.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"AWS Cloud Technical Essentials"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;"> AWS - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/W8R5103JRTCB?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+        
+    <!-- SERTIFIKAT START -->
+    <div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+        <img src="img/Certificate/COURSE/Linux Fundamental.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+        <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+            <p style="color: #FFD700;"><strong>"Linux Fundamental"</strong></p> 
+            <p style="color: rgb(255, 255, 255); font-size: 14px;"> LearnQuest - Coursera 2025</p>
+            <a href="https://www.coursera.org/account/accomplishments/verify/SXI0Y45NFLDT?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=pdf_header_button&utm_product=course" 
+            target="_blank" 
+            style="color: #00ff00; font-weight: bold; text-decoration: none; 
+                   text-align: center; 
+                   text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+                   transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+                   margin-top: 10px !important;
+                   display: block;">
+            Credential ↗
+         </a>
+        </div>
+    </div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Python Developer.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Python Developer"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-33E1CQIK" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Front-end for Beginners.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Front-end for Beginners"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-JIE4SJPE" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Managing Linux Systems.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Managing Linux Systems"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">LearnQuest - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/5JFZ3VCLOO8B?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=pdf_header_button&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Securing Linux Systems.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Securing Linux Systems"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">LearnQuest - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/O7F92MZONZFJ?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=pdf_header_button&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Linux Cloud and DevOps.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Linux Cloud and DevOps"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">LearnQuest - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/YYCYGSCO1MJV?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=pdf_header_button&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Advanced Features Microsoft Word.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Advanced Features Microsoft Word"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">My Skill 2024</p>
+        <a href="https://storage.googleapis.com/myskill-v2-certificates/course-iHn9V2QLKmFCA7oU77lt/JrdvdRQOpcZGDsKyvRBbm7UIkND2-QQv2s24rmcTZLxMqr1t5.pdf" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Introduction to Network Automation.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Introduction to Network Automation"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;"> CISCO - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/GQVODA3XOY1K?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=pdf_header_button&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/5G Network Architecture and Protocols.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"5G Network Architecture and Protocols"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">LearnQuest - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/0SZUD7KAPWJI?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Network Security.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Network Security"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">CISCO - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/VBZFQJMZRY5I?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/4G Network Fundamentals.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"4G Network Fundamentals"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Institute Mine Telecom - Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/AW3WZTNEDNTN?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/BACK-END DEVELOPMENT INTRODUCTION.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Back-End Development Introduction"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Myskill 2024</p>
+        <a href="https://storage.googleapis.com/myskill-v2-certificates/course-WVJILOsmHT0ZvmlwEDh0/JrdvdRQOpcZGDsKyvRBbm7UIkND2-7KN3QwvGED7fUmUVER5c.pdf" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/PROJECT MANAGEMENT PLANNING.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Project Management Planning"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Myskill 2024</p>
+        <a href="https://storage.googleapis.com/myskill-v2-certificates/course-TBgRFYE5OKHXRpCyz32Y/JrdvdRQOpcZGDsKyvRBbm7UIkND2-fGPH01Lr7jSy8dV7hSWP.pdf" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Leadership.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"LeaderShip"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Illinois Urbana Univercity – Coursera 2025</p>
+        <a href="https://www.coursera.org/account/accomplishments/verify/6QKU3V7HXPCO?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=pdf_header_button&utm_product=course" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/UX DESIGN FUNDAMENTAL.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"UX Design Fundamental"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Myskill 2024</p>
+        <a href="https://storage.googleapis.com/myskill-v2-certificates/course-zwlp5dlpVbvs513ffbEm/JrdvdRQOpcZGDsKyvRBbm7UIkND2-s7C2dnV8LC5S3NXWXwMq.pdf" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/DATA VISUALIZATION BEST PRACTICES.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Data Visualization Best Practices"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Myskill 2024</p>
+        <a href="https://storage.googleapis.com/myskill-v2-certificates/course-lZH2cahGKYVYfb5WMVe5/JrdvdRQOpcZGDsKyvRBbm7UIkND2-hnZnCKKn78YuTmNLS4Nt.pdf" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/DATA VISUALIZATION.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Data Visualization"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Myskill 2024</p>
+        <a href="https://storage.googleapis.com/myskill-v2-certificates/course-WkXhzjw3nAeweAy7MiEg/JrdvdRQOpcZGDsKyvRBbm7UIkND2-BbZ5p0DxinvE5PITeekZ.pdf" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Introduction HTML.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Introduction HTML"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-HTUQOQ9B" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Python Intermediate.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Python Intermediate"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-OIWRUO4L" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Introduction to Python.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Introduction to Python"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-H3XFIIV2" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Web Development.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Web Development"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-7FMKLWXE" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/JavaScript Intermediate.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"JavaScript Intermediate"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-JE8OLI5I" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Introduction to JavaScript.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Introduction to JavaScript"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-Z3JNTHZX" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Introduction to CSS.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Introduction to CSS"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-JJP1NUMG" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+<!-- SERTIFIKAT START -->
+<div class="certificate-box" style="border: 2px solid #00ff0d; padding: 15px; border-radius: 10px; width: fit-content;">
+    <img src="img/Certificate/COURSE/Coding Foundations.png" alt="Course Certificate" style="width: 5cm; height: auto; border-radius: 10px;">
+    <div class="certificate-details" style="text-align: left; margin-top: 15px;">
+        <p style="color: #FFD700;"><strong>"Coding Foundations"</strong></p> 
+        <p style="color: rgb(255, 255, 255); font-size: 14px;">Sololearn 2024</p>
+        <a href="https://www.sololearn.com/en/certificates/CC-RADXANML" 
+        target="_blank" 
+        style="color: #00ff00; font-weight: bold; text-decoration: none; 
+               text-align: center; 
+               text-shadow: 0 0 5px #00ff0054, 0 0 10px #00ff004b, 0 0 15px #00ff0050; 
+               transition: transform 0.2s ease, text-shadow 0.3s ease, color 0.3s ease;
+               margin-top: 10px !important;
+               display: block;">
+        Credential ↗
+     </a>
+    </div>
+</div>
+<!-- SERTIFIKAT END -->
+
+
+
+                            
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({offset: 0});
+        
+        function hamburg() {
+            const navbar = document.querySelector(".dropdown")
+            navbar.style.transform = "translateY(0px)"
+        }
+        
+        function cancel() {
+            const navbar = document.querySelector(".dropdown")
+            navbar.style.transform = "translateY(-500px)"
+        }
+    </script>
+</body>
+</html>
+
+<!-- Subscribe Tamzidan Madiyin di YouTube -->
