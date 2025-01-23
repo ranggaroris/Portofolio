@@ -36,12 +36,15 @@
           - Mencegah horizontal scroll
         */
         body {
-            width: 100%;
-            min-height: 100vh;
-            background-image: url("./img/background.jpg");
-            background-size: cover;
-            overflow-x: hidden;
-            position: relative;
+            #myVideo {
+  position: fixed; /* Mengubah dari absolute menjadi fixed */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
         }
 
         /* 
@@ -450,6 +453,11 @@
 
 <body>
 
+    <video autoplay muted loop id="myVideo">
+        <source src="./02.mov" type="video/mp4" />
+        Your browser does not support HTML5 video.
+    </video>
+
     <!-- Navigasi -->
     <nav>
         <div class="nav-container">
@@ -526,7 +534,7 @@
                     <p>Currently, I am pursuing a degree in Computer Science at Universitas Pamulang while continuing to expand my knowledge and skills. I have earned various certifications, showcasing my commitment to continuous professional growth in the telecommunications industry.</p>
 
                     <div class="stats">
-                        <div class="stat-item" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="300"
+                        <div class="stat-item" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="100"
                             onclick="showAwards()">
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <i class="fas fa-graduation-cap" style="font-size: 50px; color: rgb(255, 255, 255);"></i>
