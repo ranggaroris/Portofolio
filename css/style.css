@@ -10,11 +10,15 @@
 }
 
 body {
-  width: 100%;
-  height: 100vh;
-  background-image: url("../img/background.jpg");
-  overflow: hidden;
-}
+  #myVideo {
+    position: fixed; /* Mengubah dari absolute menjadi fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
 
 nav {
   width: 100%;
@@ -28,6 +32,7 @@ nav {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
 }
 
 
@@ -233,6 +238,8 @@ section {
     font-size: 1.5rem;
   }
 
+  
+
   .main-container {
     display: flex;
     flex-direction: column-reverse;
@@ -277,4 +284,3 @@ section {
     margin-top: 15px;
   }
 }
-
