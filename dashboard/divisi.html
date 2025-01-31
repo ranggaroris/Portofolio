@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struktur Organisasi Divisi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/2.1.52/go-debug.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .diagram-container {
+            width: 100%;
+            height: 500px; /* Menyesuaikan tinggi kontainer */
+            background-color: #f4f6f9;
+            border-radius: 8px;
+            padding: 10px; /* Mengurangi padding untuk membuat ruang lebih kecil */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Mencegah scroll */
+        }
+        h2 {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4"> <!-- Mengurangi margin atas -->
+        <h2>Struktur Organisasi Divisi</h2>
+        <a href="index.html" class="btn btn-primary mb-3">Kembali ke Dashboard</a>
+        <div id="myDiagramDiv" class="diagram-container"></div>
+    </div>
+
+    <script>
+        function init() {
+            const $ = go.GraphObject.make;
+
+            const diagram = $(go.Diagram, "myDiagramDiv", {
+                initialAutoScale: go.Diagram.Uniform,
+                layout: $(go.TreeLayout, { angle: 90, layerSpacing: 50 })
+            });
+
+            // Definisikan Template Node dengan Bentuk dan Warna Berbeda untuk Setiap Level
+            diagram.nodeTemplate =
+                $(go.Node, "Auto",
+                    $(go.Shape, "RoundedRectangle",  // Bentuk dengan sudut membulat
+                        { fill: "white", strokeWidth: 0 },
+                        new go.Binding("fill", "color")),
+                    $(go.Panel, "Vertical",
+                        $(go.TextBlock, 
+                            { margin: 5, font: "bold 14px sans-serif", alignment: go.Spot.Center, textAlign: "center", wrap: go.TextBlock.WrapFit },
+                            new go.Binding("text", "name")),
+                        $(go.TextBlock,
+                            { margin: 2, font: "italic 12px sans-serif", stroke: "#555", alignment: go.Spot.Center, textAlign: "center", wrap: go.TextBlock.WrapFit },
+                            new go.Binding("text", "title"))
+                    )
+                );
+
+            // Definisikan Model dengan Data Hierarki
+            diagram.model = new go.TreeModel([
+                { key: 1, name: "Rangga Roris", title: "CEO", color: "#6c63ff" },
+                { key: 2, parent: 1, name: "Siti Aisyah", title: "Manager", color: "#007bff" },
+
+                // Supervisor
+                { key: 3, parent: 2, name: "Rizky Pratama", title: "IT Supervisor", color: "#28a745" },
+                { key: 4, parent: 2, name: "Budi Santoso", title: "Finance Supervisor", color: "#28a745" },
+                { key: 5, parent: 2, name: "Andi Kurniawan", title: "HR Supervisor", color: "#28a745" },
+
+                // IT Staff (5) - setiap staff memiliki node terpisah
+                { key: 6, parent: 3, name: "Dwi Saputra", title: "IT Staff", color: "#ffc107" },
+                { key: 7, parent: 3, name: "Eko Prasetyo", title: "IT Staff", color: "#ffc107" },
+                { key: 8, parent: 3, name: "Fajar Nugroho", title: "IT Staff", color: "#ffc107" },
+                { key: 9, parent: 3, name: "Rian Agung", title: "IT Staff", color: "#ffc107" },
+                { key: 10, parent: 3, name: "Bagus Setiawan", title: "IT Staff", color: "#ffc107" },
+
+                // Finance Staff (2) - setiap staff memiliki node terpisah
+                { key: 11, parent: 4, name: "Diana", title: "Finance Staff", color: "#ffc107" },
+                { key: 12, parent: 4, name: "Dimas", title: "Finance Staff", color: "#ffc107" },
+
+                // HR Staff (2) - setiap staff memiliki node terpisah
+                { key: 13, parent: 5, name: "Fani", title: "HR Staff", color: "#ffc107" },
+                { key: 14, parent: 5, name: "Gita", title: "HR Staff", color: "#ffc107" },
+            ]);
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

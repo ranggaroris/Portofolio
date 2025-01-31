@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Izin Karyawan</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Table Styling */
+        .table thead {
+            background-color: #007bff; /* Header background color */
+            color: white; /* Header text color */
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2; /* Light gray for odd rows */
+        }
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: #e9ecef; /* Slightly darker gray for even rows */
+        }
+        .table-hover tbody tr:hover {
+            background-color: #d6eaff; /* Light blue for hover effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Data Izin Karyawan</h2>
+        <a href="index.html" class="btn btn-primary mb-3">Kembali ke Dashboard</a>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Tanggal Izin</th>
+                    <th>Alasan</th>
+                    <th>Aksi</th> <!-- New column for actions -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>002</td>
+                    <td>Bagus Setiawan</td>
+                    <td>2024-11-01</td>
+                    <td>Sakit</td>
+                    <td>
+                        <button class="btn btn-success btn-sm">Approve</button>
+                        <button class="btn btn-danger btn-sm">Reject</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>003</td>
+                    <td>Diana</td>
+                    <td>2024-11-01</td>
+                    <td>Cuti</td>
+                    <td>
+                        <button class="btn btn-success btn-sm">Approve</button>
+                        <button class="btn btn-danger btn-sm">Reject</button>
+                    </td>
+                </tr>
+                <!-- Tambahkan data izin lainnya di sini -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

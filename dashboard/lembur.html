@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Lembur Karyawan</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom styles for the table header */
+        .table thead th {
+            background-color: #003366; /* Dark blue color for header */
+            color: white; /* White text for header */
+        }
+        /* Custom styles for the table rows */
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2; /* Light gray for odd rows */
+        }
+        .table-striped tbody tr:nth-of-type(even) {
+            background-color: #e0f7fa; /* Light cyan for even rows */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Data Lembur Karyawan</h2>
+        <a href="index.html" class="btn btn-primary mb-3">Kembali ke Dashboard</a>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Tanggal Lembur</th>
+                    <th>Durasi (jam)</th>
+                    <th>Aksi</th> <!-- New column for actions -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>007</td>
+                    <td>Eko Prasetyo</td>
+                    <td>2024-11-02</td>
+                    <td>4</td>
+                    <td>
+                        <button class="btn btn-success btn-sm">Approve</button>
+                        <button class="btn btn-danger btn-sm">Reject</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>009</td>
+                    <td>Rian Agung</td>
+                    <td>2024-11-02</td>
+                    <td>4</td>
+                    <td>
+                        <button class="btn btn-success btn-sm">Approve</button>
+                        <button class="btn btn-danger btn-sm">Reject</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>003</td>
+                    <td>Rizky Pratama</td>
+                    <td>2024-11-02</td>
+                    <td>2</td>
+                    <td>
+                        <button class="btn btn-success btn-sm">Approve</button>
+                        <button class="btn btn-danger btn-sm">Reject</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>006</td>
+                    <td>Dwi Saputra</td>
+                    <td>2024-11-02</td>
+                    <td>6</td>
+                    <td>
+                        <button class="btn btn-success btn-sm">Approve</button>
+                        <button class="btn btn-danger btn-sm">Reject</button>
+                    </td>
+                </tr>
+                <!-- Tambahkan data lembur lainnya di sini -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
