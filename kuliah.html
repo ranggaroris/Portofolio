@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadwal Kuliah</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f4f7fc;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #7f8c8d;
+    }
+
+    button {
+      background-color: #05833d;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.2rem;  
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff0000;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #1c0553;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #ecf0f1;
+    }
+
+    #formModal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0%; /* Menyesuaikan posisi lebih ke atas */
+      width: 100%;
+      height: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding-top: 10px;
+      overflow-y: auto; /* Menambahkan scroll pada modal */
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 50%;
+      max-width: 500px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+    }
+
+    .modal-content label {
+      font-size: 1rem;
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    .modal-content input[type="text"],
+    .modal-content input[type="number"],
+    .modal-content select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .modal-content input[type="text"]#keterangan {
+      background-color: transparent;
+      border: 1px solid #ddd;
+    }
+
+    .close, .cancel {
+      color: #aaa;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .close:hover, .cancel:hover {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .deleteBtn {
+      background-color: red;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .deleteBtn:hover {
+      background-color: #ff0000;
+    }
+
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Manajemen Jadwal Kuliah</h1>
+      <p>Semester 5</p>
+    </header>
+
+    <button id="addRowBtn">Tambah Jadwal</button>
+    <button id="deleteAllBtn" class="deleteBtn" style="display:none;">Delete Semua Jadwal</button>
+
+    <table id="scheduleTable">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Kelompok</th>
+          <th>Mata Kuliah</th>
+          <th>Pertemuan</th>
+          <th>Fordis</th>
+          <th>Tugas</th>
+          <th>Keterangan</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div id="formModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Tambah/Edit Jadwal Kuliah</h2>
+      <form id="scheduleForm">
+        <label for="kelompok">Kelompok:</label>
+        <input type="text" id="kelompok" required>
+
+        <label for="mataKuliah">Mata Kuliah:</label>
+        <input type="text" id="mataKuliah" required>
+
+        <label for="pertemuan">Pertemuan:</label>
+        <input type="number" id="pertemuan" required>
+
+        <label for="fordis">Fordis:</label>
+        <select id="fordis" required>
+          <option value="N/A">N/A</option>
+          <option value="OK">OK</option>
+          <option value="NT">NT</option>
+        </select>
+
+        <label for="tugas">Tugas:</label>
+        <select id="tugas" required>
+          <option value="N/A">N/A</option>
+          <option value="OK">OK</option>
+          <option value="NT">NT</option>
+        </select>
+
+        <label for="keterangan">Keterangan:</label>
+        <input type="text" id="keterangan">
+
+        <div class="actions">
+          <button type="submit" id="submitBtn">Simpan</button>
+          <button type="button" class="cancel" id="cancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      loadData();
+
+      document.getElementById('addRowBtn').addEventListener('click', openModal);
+      document.getElementById('scheduleForm').addEventListener('submit', saveSchedule);
+      document.querySelector('.close').addEventListener('click', closeModal);
+      document.getElementById('cancelBtn').addEventListener('click', closeModal);
+      document.getElementById('deleteAllBtn').addEventListener('click', deleteAllSchedules);  // Event listener untuk tombol delete semua jadwal
+    });
+
+    let currentEditingIndex = null;
+
+    function loadData() {
+      const schedules = JSON.parse(localStorage.getItem('schedules')) || [];
+      const tbody = document.querySelector('#scheduleTable tbody');
+      tbody.innerHTML = '';
+
+      schedules.forEach((schedule, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${schedule.kelompok}</td>
+          <td>${schedule.mataKuliah}</td>
+          <td>${schedule.pertemuan}</td>
+          <td>
+            <select onchange="updateField(${index}, 'fordis', this.value)">
+              <option value="N/A" ${schedule.fordis === 'N/A' ? 'selected' : ''}>N/A</option>
+              <option value="OK" ${schedule.fordis === 'OK' ? 'selected' : ''}>OK</option>
+              <option value="NT" ${schedule.fordis === 'NT' ? 'selected' : ''}>NT</option>
+            </select>
+          </td>
+          <td>
+            <select onchange="updateField(${index}, 'tugas', this.value)">
+              <option value="N/A" ${schedule.tugas === 'N/A' ? 'selected' : ''}>N/A</option>
+              <option value="OK" ${schedule.tugas === 'OK' ? 'selected' : ''}>OK</option>
+              <option value="NT" ${schedule.tugas === 'NT' ? 'selected' : ''}>NT</option>
+            </select>
+          </td>
+          <td>
+            <input type="text" value="${schedule.keterangan}" onchange="updateField(${index}, 'keterangan', this.value)">
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // Menampilkan atau menyembunyikan tombol "Delete Semua Jadwal" jika ada jadwal
+      if (schedules.length > 0) {
+        document.getElementById('deleteAllBtn').style.display = 'inline-block';
+      } else {
+        document.getElementById('deleteAllBtn').style.display = 'none';
+      }
+    }
+
+    function openModal() {
+      currentEditingIndex = null;
+      document.getElementById('kelompok').value = '';
+      document.getElementById('mataKuliah').value = '';
+      document.getElementById('pertemuan').value = '';
+      document.getElementById('fordis').value = 'N/A';
+      document.getElementById('tugas').value = 'N/A';
+      document.getElementById('keterangan').value = '';
+      document.getElementById('formModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('formModal').style.display = 'none';
+    }
+
+    function saveSchedule(e) {
+      e.preventDefault();
+
+      const kelompok = document.getElementById('kelompok').value;
+      const mataKuliah = document.getElementById('mataKuliah').value;
+      const pertemuan = document.getElementById('pertemuan').value;
+      const fordis = document.getElementById('fordis').value;
+      const tugas = document.getElementById('tugas').value;
+      const keterangan = document.getElementById('keterangan').value;
+
+      let schedules = JSON.parse(localStorage.getItem('schedules')) || [];
+
+      if (currentEditingIndex !== null) {
+        schedules[currentEditingIndex] = {
+          kelompok,
+          mataKuliah,
+          pertemuan,
+          fordis,
+          tugas,
+          keterangan
+        };
+      } else {
+        schedules.push({
+          kelompok,
+          mataKuliah,
+          pertemuan,
+          fordis,
+          tugas,
+          keterangan
+        });
+      }
+
+      localStorage.setItem('schedules', JSON.stringify(schedules));
+      loadData();
+      closeModal();
+    }
+
+    function updateField(index, field, value) {
+      let schedules = JSON.parse(localStorage.getItem('schedules')) || [];
+      schedules[index][field] = value;
+      localStorage.setItem('schedules', JSON.stringify(schedules));
+    }
+
+    function deleteAllSchedules() {
+      const confirmDelete = confirm('Apakah Anda yakin ingin menghapus semua jadwal?');
+      if (confirmDelete) {
+        localStorage.removeItem('schedules');
+        loadData();
+      }
+    }
+  </script>
+</body>
+</html>

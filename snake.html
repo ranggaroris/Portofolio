@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game</title>
+    <link rel="icon" type="image/png" href="img/game.png">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("./img/background.jpg"); /* Background from original code */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            align-items: flex-start; /* Menjaga elemen sejajar di bagian atas */
+        }
+
+        canvas {
+            border: 1px solid white;
+            background-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            transition: transform 0.3s;
+        }
+
+        #scoreboard {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold; /* Membuat teks menjadi tebal */
+    color: #39FF14; /* Warna hijau neon */
+    text-shadow: 0 0 10px #39FF14, 0 0 20px #39FF14, 0 0 30px #39FF14; /* Efek neon */
+    position: absolute;
+    top: 80px; /* Posisi dari atas halaman */
+    left: 50%; /* Posisi tengah secara horizontal */
+    transform: translateX(-50%); /* Untuk memposisikan di tengah */
+}
+
+
+    </style>
+</head>
+<body>
+    <div id="scoreboard">Score: 0 | High Score: 0</div>
+    <canvas width="400" height="400" id="game"></canvas>
+    <script>
+        var canvas = document.getElementById('game');
+        var context = canvas.getContext('2d');
+        var scoreBoard = document.getElementById('scoreboard');
+        var grid = 20;
+        var count = 0;
+        var score = 0;
+        var highScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
+        var snake = { x: 160, y: 160, dx: grid, dy: 0, cells: [], maxCells: 5 };
+        var apple = { x: 320, y: 320 };
+        var sound = new Audio('https://www.fesliyanstudios.com/play-mp3/438');
+
+        // Fungsi untuk mendapatkan angka acak
+        function getRandomInt(min, max) {
+          return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function drawSnakeBody(cell, isHead) {
+  context.fillStyle = isHead ? 'rgba(57, 255, 20, 1)' : 'rgba(255, 0, 0, 0.6)'; // Kepala hijau neon, tubuh merah semi-transparan
+  context.beginPath();
+  context.arc(cell.x + grid / 2, cell.y + grid / 2, grid / 2, 0, Math.PI * 2);
+  context.fill();
+
+  if (isHead) {
+    context.fillStyle = 'white'; // Mata ular warna putih
+    context.beginPath();
+    context.arc(cell.x + grid / 3, cell.y + grid / 3, 3, 0, Math.PI * 2);
+    context.arc(cell.x + 2 * grid / 3, cell.y + grid / 3, 3, 0, Math.PI * 2);
+    context.fill();
+
+    // Tambahkan tanduk di kepala ular
+    context.fillStyle = '#FFFFFF'; // Warna tanduk putih
+    context.beginPath();
+    context.moveTo(cell.x + grid / 4, cell.y); // Tanduk kiri
+    context.lineTo(cell.x + grid / 2, cell.y - grid / 2); // Puncak tanduk kiri
+    context.lineTo(cell.x + grid / 2.5, cell.y); // Kembali ke pangkal tanduk kiri
+    context.closePath();
+    context.fill();
+
+    context.beginPath();
+    context.moveTo(cell.x + 3 * grid / 4, cell.y); // Tanduk kanan
+    context.lineTo(cell.x + grid / 2, cell.y - grid / 2); // Puncak tanduk kanan
+    context.lineTo(cell.x + 2 * grid / 3, cell.y); // Kembali ke pangkal tanduk kanan
+    context.closePath();
+    context.fill();
+  }
+}
+
+
+        // Fungsi untuk menggambar apel
+        function drawApple() {
+          context.fillStyle = 'orange';
+          context.beginPath();
+          context.arc(apple.x + grid / 2, apple.y + grid / 2, grid / 2, 0, Math.PI * 2);
+          context.fill();
+        }
+
+        // Fungsi untuk menggambar efek percikan air yang lebih besar dan banyak
+        function drawSplash(x, y) {
+          context.fillStyle = 'rgba(0, 150, 255, 0.7)';
+          var splashCount = 20; // Jumlah percikan air lebih banyak
+          var splashSize = 5;   // Ukuran percikan lebih besar
+          for (let i = 0; i < splashCount; i++) {
+            let angle = Math.random() * Math.PI * 2;
+            let radius = Math.random() * 15 + splashSize;
+            let splashX = x + Math.cos(angle) * radius;
+            let splashY = y + Math.sin(angle) * radius;
+            context.beginPath();
+            context.arc(splashX, splashY, Math.random() * 4 + 2, 0, Math.PI * 2);
+            context.fill();
+          }
+        }
+
+        // Fungsi untuk memperbarui skor
+        function updateScore() {
+          scoreBoard.innerText = `Score: ${score} | High Score: ${highScore}`;
+        }
+
+        // Fungsi untuk menjalankan game loop
+        function loop() {
+          requestAnimationFrame(loop);
+          if (++count < 4) return;
+          count = 0;
+          context.clearRect(0, 0, canvas.width, canvas.height);
+
+          snake.x += snake.dx;
+          snake.y += snake.dy;
+          if (snake.x < 0) snake.x = canvas.width - grid;
+          else if (snake.x >= canvas.width) snake.x = 0;
+          if (snake.y < 0) snake.y = canvas.height - grid;
+          else if (snake.y >= canvas.height) snake.y = 0;
+
+          snake.cells.unshift({ x: snake.x, y: snake.y });
+          if (snake.cells.length > snake.maxCells) snake.cells.pop();
+
+          drawApple();
+
+          snake.cells.forEach(function (cell, index) {
+            drawSnakeBody(cell, index === 0);
+
+            // Cek apakah ular makan apel
+            if (cell.x === apple.x && cell.y === apple.y) {
+              snake.maxCells++;
+              score++;
+              if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('highScore', highScore);
+              }
+              updateScore();
+              drawSplash(apple.x + grid / 2, apple.y + grid / 2); // Menambahkan efek percikan air
+              apple.x = getRandomInt(0, 20) * grid;
+              apple.y = getRandomInt(0, 20) * grid;
+              sound.play();
+            }
+
+            // Cek jika ular menabrak dirinya sendiri
+            for (var i = index + 1; i < snake.cells.length; i++) {
+              if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                score = 0;
+                updateScore();
+                snake.x = 160;
+                snake.y = 160;
+                snake.cells = [];
+                snake.maxCells = 5;
+                snake.dx = grid;
+                snake.dy = 0;
+                apple.x = getRandomInt(0, 20) * grid;
+                apple.y = getRandomInt(0, 20) * grid;
+              }
+            }
+          });
+        }
+
+        // Menambahkan event listener untuk kontrol arah ular
+        document.addEventListener('keydown', function (e) {
+          if (e.which === 37 && snake.dx === 0) { snake.dx = -grid; snake.dy = 0; }
+          else if (e.which === 38 && snake.dy === 0) { snake.dy = -grid; snake.dx = 0; }
+          else if (e.which === 39 && snake.dx === 0) { snake.dx = grid; snake.dy = 0; }
+          else if (e.which === 40 && snake.dy === 0) { snake.dy = grid; snake.dx = 0; }
+        });
+
+        updateScore();
+        requestAnimationFrame(loop);
+    </script>
+</body>
+</html>
